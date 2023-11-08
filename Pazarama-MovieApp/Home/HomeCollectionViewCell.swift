@@ -10,40 +10,16 @@ import UIKit
 class HomeCollectionViewCell: UICollectionViewCell {
     static let identifier = "HomeCollectionViewCell"
     
-    let imageView: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFill
-        return image
-    }()
-    
-    let stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis =  .vertical
         return stack
     }()
     
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 23)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 4
-        return label
-    }()
-    
-    let yearLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 23)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        return label
-    }()
+    private let imageView = CustomImage()
+    private let titleLabel  = CustomLabel(textSize: 23, color: .white, lineCount: 4)
+    private let yearLabel   = CustomLabel(textSize: 23, color: .white, lineCount: 1)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,19 +29,21 @@ class HomeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     private func configure() {
-        addSubview(imageView)
-        addSubview(stackView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(yearLabel)
-        
+        addSubViews(imageView, stackView)
+        stackView.addArrangedSubViews(titleLabel, yearLabel)
         const()
-        
-        // backgroundColor = .white
-        imageView.image = UIImage(named: "batman")
-        titleLabel.text = "Batman v Superman: Dawn of Justice"
-        yearLabel.text = "2018"
+    }
+    
+    func configCell(_ movies: Search) {
+        if movies.poster == "N/A" {
+            imageView.image = UIImage(named: "noimage")
+        } else {
+            let imageUrl = URL(string: movies.poster)
+            imageView.kf.setImage(with: imageUrl)
+        }
+        titleLabel.text = movies.title
+        yearLabel.text = movies.year
     }
 }
 

@@ -8,8 +8,9 @@
 import Foundation
 
 protocol MovieService {
-    func getSearchMovies(search: String, completion: @escaping (Result<SearchMovies, ErrorTypes>) -> ())
-    func getSearchMovieDetail(title: String, completion: @escaping (Result<MovieDetails, ErrorTypes>) -> ())
+    func getSearchMovies(search: String, page: String, completion: @escaping (Result<SearchMovies, 
+                                                                              ErrorTypes>) -> ())
+    func getMovieDetails(imdbID: String, completion: @escaping (Result<MovieDetails, ErrorTypes>) -> ())
 }
 
 class NetworkManager {
@@ -22,7 +23,6 @@ class NetworkManager {
             
             guard let response = response as? HTTPURLResponse, response.statusCode >= 200,
                     response.statusCode <= 299 else {
-                // print(response)
                 completion(.failure(.responseError))
                 return
             }
@@ -50,13 +50,14 @@ class NetworkManager {
 }
 
 extension NetworkManager: MovieService {
-    func getSearchMovies(search: String, completion: @escaping (Result<SearchMovies, ErrorTypes>) -> ()) {
-        let endPoint = EndPoint.getSearchMovies(search: search)
+    func getSearchMovies(search: String, page: String, completion: @escaping (Result<SearchMovies, 
+                                                                              ErrorTypes>) -> ()) {
+        let endPoint = EndPoint.getSearchMovies(search: search, page: page)
         request(endPoint, completion: completion)
     }
     
-    func getSearchMovieDetail(title: String, completion: @escaping (Result<MovieDetails, ErrorTypes>) -> ()) {
-        let endPoint = EndPoint.getSearchMovieDetail(title: title)
+    func getMovieDetails(imdbID: String, completion: @escaping (Result<MovieDetails, ErrorTypes>) -> ()) {
+        let endPoint = EndPoint.getSearchMovieDetail(imdbID: imdbID)
         request(endPoint, completion: completion)
     }
 }

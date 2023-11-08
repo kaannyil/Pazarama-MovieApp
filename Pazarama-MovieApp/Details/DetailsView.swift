@@ -6,21 +6,22 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
+
 
 protocol DetailsViewInterface {
     func prepare()
 }
 
-class DetailsView: UIViewController {
+protocol DetailsViewModelOutPut: AnyObject {
+    func getMovieDetails(_ movieDetails: MovieDetails)
+    func getError(_ errorType: ErrorTypes)
+    func changeLoading(_ isLoading: Bool)
+}
 
-    let imageView: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFill
-        return image
-    }()
+final class DetailsView: UIViewController {
     
-    let infoStack: UIStackView = {
+    private let infoStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis =  .vertical
@@ -28,76 +29,22 @@ class DetailsView: UIViewController {
         return stack
     }()
     
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    let yearLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    let actorsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    let countryLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    let directorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 1
-        return label
-    }()
-    
-    let imdbRatingLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.sizeToFit()
-        label.numberOfLines = 1
-        return label
-    }()
+    private let imageView           = CustomImage()
+    private let titleLabel          = CustomLabel(textSize: 16, color: .white, lineCount: 2)
+    private let yearLabel           = CustomLabel(textSize: 16, color: .white, lineCount: 2)
+    private let actorsLabel         = CustomLabel(textSize: 16, color: .white, lineCount: 2)
+    private let countryLabel        = CustomLabel(textSize: 16, color: .white, lineCount: 2)
+    private let directorLabel       = CustomLabel(textSize: 16, color: .white, lineCount: 2)
+    private let imdbRatingLabel     = CustomLabel(textSize: 16, color: .white, lineCount: 2)
+    private let activityIndicator   = NVActivityIndicatorView(frame: .zero, type: .lineScale,
+                                                    color: .darkGray, padding: 0)
     
     var viewModel: DetailsViewModel
+    var selectedID: String
     
-    init(viewModel: DetailsViewModel) {
+    init(viewModel: DetailsViewModel, selectedID: String) {
         self.viewModel = viewModel
+        self.selectedID = selectedID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -107,39 +54,55 @@ class DetailsView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         viewModel.view = self
+        viewModel.output = self
         viewModel.viewDidLoad()
+        viewModel.fetchMovieDetails(selectedID)
     }
 }
 
 // MARK: - UI Configuration
 extension DetailsView: DetailsViewInterface {
     func prepare() {
-        view.addSubview(imageView)
-        view.addSubview(infoStack)
-        infoStack.addArrangedSubview(titleLabel)
-        infoStack.addArrangedSubview(yearLabel)
-        infoStack.addArrangedSubview(actorsLabel)
-        infoStack.addArrangedSubview(countryLabel)
-        infoStack.addArrangedSubview(directorLabel)
-        infoStack.addArrangedSubview(imdbRatingLabel)
-        
+        view.addSubViews(imageView, infoStack, activityIndicator)
+        infoStack.addArrangedSubViews(titleLabel, yearLabel, actorsLabel,
+                                      countryLabel, directorLabel, imdbRatingLabel)
         const()
         
-        navigationController?.navigationBar.prefersLargeTitles = false
-        title = "Batman Begins"
         view.backgroundColor = .black
-        imageView.backgroundColor = .red
         
-        titleLabel.text = "Batman Begins"
-        yearLabel.text = "2005"
-        actorsLabel.text = "Christian Bale, Michael Caine, Ken Watanabe"
-        countryLabel.text = "United States, United Kingdom"
-        directorLabel.text = "Christopher Nolan"
-        imdbRatingLabel.text = "8.2"
-        
-        infoStack.backgroundColor = .clear
+        viewModel.changeLoading(isLoading: true)
+    }
+}
+
+// MARK: - DetailsViewModel OutPut
+extension DetailsView: DetailsViewModelOutPut {
+    func getMovieDetails(_ movieDetails: MovieDetails) {
+        DispatchQueue.main.async {
+            
+            if movieDetails.poster == "N/A" {
+                self.imageView.image = UIImage(named: "noimage")
+            } else {
+                self.imageView.kf.setImage(with: URL(string: movieDetails.poster))
+            }
+            
+            self.titleLabel.text = "Title: \(movieDetails.title)"
+            self.yearLabel.text = "Year: \(movieDetails.year)"
+            self.actorsLabel.text = "Actors: \(movieDetails.actors)"
+            self.countryLabel.text = "Country: \(movieDetails.country)"
+            self.directorLabel.text = "Director: \(movieDetails.director)"
+            self.imdbRatingLabel.text = "IMDB Rating: \(movieDetails.imdbRating)"
+        }
+    }
+    
+    func getError(_ errorType: ErrorTypes) {
+        print(errorType)
+    }
+    
+    func changeLoading(_ isLoading: Bool) {
+        DispatchQueue.main.async {
+            isLoading ? self.activityIndicator.startAnimating() : self.activityIndicator.stopAnimating()
+        }
     }
 }
 
@@ -152,10 +115,11 @@ extension DetailsView {
             imageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/2),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5),
             
-            infoStack.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30),
+            infoStack.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             infoStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
             infoStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
-            infoStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
+            infoStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
+        activityIndicator.pintoCenter(superView: view)
     }
 }

@@ -8,9 +8,7 @@
 import Foundation
 
 enum ErrorTypes: String, Error {
-    case invalidUrl = "Invalid URL"
     case noData = "No Data"
-    case invalidRequest = "Invalid Request"
     case generalError = "General Error"
     case parsingError = "Parsing Error"
     case responseError = "Response Error"
@@ -21,24 +19,16 @@ enum HTTPMethod: String {
 }
 
 protocol EndPointProtocol {
-    // var path: String { get }
     var method: HTTPMethod { get }
     func request() -> URLRequest
 }
 
 enum EndPoint {
-    case getSearchMovies(search: String)
-    case getSearchMovieDetail(title: String)
+    case getSearchMovies(search: String, page: String)
+    case getSearchMovieDetail(imdbID: String)
 }
 
 extension EndPoint: EndPointProtocol {
-    
-    // var path: String {
-    //     switch self {
-    //     case .getSearchMovies(let search): return "\(search)"
-    //     case .getSearchMovieDetail(let title): return "\(title)"
-    //     }
-    // }
     
     var method: HTTPMethod {
         switch self {
@@ -52,19 +42,18 @@ extension EndPoint: EndPointProtocol {
             fatalError("URL ERROR !")
         }
         
-        // Add path
-        // components.path = path
-        
         // Add Query Paramater
-        if case .getSearchMovies(let search) = self {
+        if case .getSearchMovies(let search, let page) = self {
             components.queryItems = [
                 URLQueryItem(name: "apikey", value: ApiKey.apiKey),
-                URLQueryItem(name: "s", value: search)
+                URLQueryItem(name: "s", value: search),
+                URLQueryItem(name: "page", value: page)
             ]
             print(components)
-        } else if case .getSearchMovieDetail = self {
+        } else if case .getSearchMovieDetail(let imdbID) = self {
             components.queryItems = [
                 URLQueryItem(name: "apikey", value: ApiKey.apiKey),
+                URLQueryItem(name: "i", value: imdbID)
             ]
             print(components)
         }

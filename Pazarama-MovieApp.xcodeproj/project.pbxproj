@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB37DB202AF8B66500C94F87 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CB37DB1F2AF8B66500C94F87 /* Kingfisher */; };
+		CB37DB232AF9241100C94F87 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37DB222AF9241100C94F87 /* UIView+Extension.swift */; };
+		CB37DB2B2AFA0CB700C94F87 /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = CB37DB2A2AFA0CB700C94F87 /* NVActivityIndicatorView */; };
+		CB37DB2E2AFA0FA200C94F87 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37DB2D2AFA0FA200C94F87 /* CustomLabel.swift */; };
+		CB37DB312AFA6B9A00C94F87 /* CustomImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB37DB302AFA6B9A00C94F87 /* CustomImage.swift */; };
 		CB5E190F2AF6F13000F084CB /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E190E2AF6F13000F084CB /* NetworkHelper.swift */; };
 		CB5E19112AF6F13A00F084CB /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E19102AF6F13A00F084CB /* NetworkManager.swift */; };
 		CB5E19132AF6F2CA00F084CB /* BaseUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5E19122AF6F2CA00F084CB /* BaseUrl.swift */; };
@@ -45,6 +50,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB37DB222AF9241100C94F87 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		CB37DB2D2AFA0FA200C94F87 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		CB37DB302AFA6B9A00C94F87 /* CustomImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImage.swift; sourceTree = "<group>"; };
 		CB5E190E2AF6F13000F084CB /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		CB5E19102AF6F13A00F084CB /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		CB5E19122AF6F2CA00F084CB /* BaseUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseUrl.swift; sourceTree = "<group>"; };
@@ -74,6 +82,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB37DB2B2AFA0CB700C94F87 /* NVActivityIndicatorView in Frameworks */,
+				CB37DB202AF8B66500C94F87 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +104,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB37DB212AF923EA00C94F87 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CB37DB222AF9241100C94F87 /* UIView+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CB37DB242AF93B6F00C94F87 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				CB37DB2C2AFA0F8A00C94F87 /* Label */,
+				CB37DB322AFA6BA400C94F87 /* Image */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		CB37DB292AFA0CB700C94F87 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CB37DB2C2AFA0F8A00C94F87 /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				CB37DB2D2AFA0FA200C94F87 /* CustomLabel.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
+		CB37DB322AFA6BA400C94F87 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				CB37DB302AFA6B9A00C94F87 /* CustomImage.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		CB5E19002AF6DF1000F084CB /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +210,7 @@
 				CB77B8AF2AF6535A000AB800 /* Pazarama-MovieAppTests */,
 				CB77B8B92AF6535A000AB800 /* Pazarama-MovieAppUITests */,
 				CB77B8972AF65358000AB800 /* Products */,
+				CB37DB292AFA0CB700C94F87 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -178,8 +229,10 @@
 			children = (
 				CB5E19002AF6DF1000F084CB /* Base */,
 				CB5E190B2AF6F0F100F084CB /* Network */,
+				CB37DB242AF93B6F00C94F87 /* CustomViews */,
 				CB5E191D2AF700B800F084CB /* Home */,
 				CB5E19212AF7010F00F084CB /* Details */,
+				CB37DB212AF923EA00C94F87 /* Extension */,
 				CB77B8A72AF6535A000AB800 /* Info.plist */,
 			);
 			path = "Pazarama-MovieApp";
@@ -218,6 +271,10 @@
 			dependencies = (
 			);
 			name = "Pazarama-MovieApp";
+			packageProductDependencies = (
+				CB37DB1F2AF8B66500C94F87 /* Kingfisher */,
+				CB37DB2A2AFA0CB700C94F87 /* NVActivityIndicatorView */,
+			);
 			productName = "Pazarama-MovieApp";
 			productReference = CB77B8962AF65358000AB800 /* Pazarama-MovieApp.app */;
 			productType = "com.apple.product-type.application";
@@ -290,6 +347,10 @@
 				Base,
 			);
 			mainGroup = CB77B88D2AF65358000AB800;
+			packageReferences = (
+				CB37DB1E2AF8B66500C94F87 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				CB37DB282AF9A16400C94F87 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
+			);
 			productRefGroup = CB77B8972AF65358000AB800 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -338,10 +399,13 @@
 				CB5E190F2AF6F13000F084CB /* NetworkHelper.swift in Sources */,
 				CB5E19292AF7E16600F084CB /* DetailsViewModel.swift in Sources */,
 				CB5E19202AF700FF00F084CB /* HomeModel.swift in Sources */,
+				CB37DB2E2AFA0FA200C94F87 /* CustomLabel.swift in Sources */,
 				CB77B89E2AF65358000AB800 /* HomeView.swift in Sources */,
 				CB5E19112AF6F13A00F084CB /* NetworkManager.swift in Sources */,
+				CB37DB232AF9241100C94F87 /* UIView+Extension.swift in Sources */,
 				CB77B89A2AF65358000AB800 /* AppDelegate.swift in Sources */,
 				CB5E19162AF6F2D400F084CB /* ApiKey.swift in Sources */,
+				CB37DB312AFA6B9A00C94F87 /* CustomImage.swift in Sources */,
 				CB5E19132AF6F2CA00F084CB /* BaseUrl.swift in Sources */,
 				CB77B89C2AF65358000AB800 /* SceneDelegate.swift in Sources */,
 				CB5E19272AF78E5600F084CB /* HomeCollectionViewCell.swift in Sources */,
@@ -519,7 +583,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8CB8GKJT4U;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Pazarama-MovieApp/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -546,7 +612,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8CB8GKJT4U;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Pazarama-MovieApp/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -681,6 +749,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB37DB1E2AF8B66500C94F87 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
+		CB37DB282AF9A16400C94F87 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ninjaprox/NVActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB37DB1F2AF8B66500C94F87 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB37DB1E2AF8B66500C94F87 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		CB37DB2A2AFA0CB700C94F87 /* NVActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB37DB282AF9A16400C94F87 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;
+			productName = NVActivityIndicatorView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CB77B88E2AF65358000AB800 /* Project object */;
 }

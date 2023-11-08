@@ -13,12 +13,33 @@ protocol DetailsViewModelInterface {
 }
 
 class DetailsViewModel: DetailsViewModelInterface {
+    
     var view: DetailsView?
+    private let movieService: MovieService
+    weak var output: DetailsViewModelOutPut?
+    
+    init(movieService: MovieService) {
+        self.movieService = movieService
+    }
     
     func viewDidLoad() {
         view?.prepare()
     }
     
+    func fetchMovieDetails(_ imdbID: String) {
+        movieService.getMovieDetails(imdbID: imdbID) { [weak self] result in
+            self?.changeLoading(isLoading: false)
+            
+            switch result {
+            case .success(let movieDetails):
+                self?.output?.getMovieDetails(movieDetails)
+            case .failure(let error):
+                self?.output?.getError(error)
+            }
+        }
+    }
     
-    
+    func changeLoading(isLoading: Bool) {
+        output?.changeLoading(isLoading)
+    }
 }
