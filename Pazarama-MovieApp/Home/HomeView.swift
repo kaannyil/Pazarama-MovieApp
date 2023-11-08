@@ -39,7 +39,7 @@ class HomeView: UIViewController {
         return collectionView
     }()
     
-    private let noMovieLabel = CustomLabel(textSize: 22, color: .red, lineCount: 1)
+    private let noMovieLabel = CustomLabel(textSize: 22, color: .red, lineCount: 0)
     private let activityIndicator = NVActivityIndicatorView(frame: .zero, type: .lineScale,
                                                             color: .lightGray, padding: 0)
     
@@ -114,6 +114,7 @@ extension HomeView: HomeViewModelOutPut {
     func changeNoMovieScreen(_ isNoData: Bool) {
         DispatchQueue.main.async {
             if isNoData {
+                self.noMovieLabel.text = "No '\(self.lastSearchText)' Movie found"
                 self.collectionView.isHidden = isNoData
                 self.noMovieLabel.isHidden = !isNoData
             } else {
